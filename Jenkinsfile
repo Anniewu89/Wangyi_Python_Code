@@ -106,7 +106,7 @@ pipeline{
 		aborted{
 			script{
 				println("aborted")
-				currentBuild.description += "/n 构建取消"
+				currentBuild.description += "\n 构建取消"
 			}
 
 
