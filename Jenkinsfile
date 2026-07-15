@@ -20,7 +20,7 @@ pipeline{
 
 	stages{
 		//清理数据
-		stage{
+		stage("Clear data"){
 		    steps {
 		        bat '''
 		            del /f /s /q test_report.html
@@ -31,7 +31,7 @@ pipeline{
 
 
 	    // 拉取最新的测试脚本
-	    stage{
+	    stage("Get code from github"){
 	        steps{
 	            timeout(time: 3, unit: 'MINUTES') {
 	                script {
@@ -48,7 +48,7 @@ pipeline{
 
 
 		// 安装相关的依赖
-		stage{
+		stage("install packages"){
 			steps{
 				bat '''
 	                E:\\SoftWareInstalled\\python\\python.exe -m pip install --upgrade pip -i https://mirrors.aliyun.com/pypi/simple
@@ -59,7 +59,7 @@ pipeline{
 
 
 	    // 运行脚本
-	    stage{
+	    stage("run test scripts"){
 	        steps{
 	            timeout(time:5, unit:"MINUTES")
 	            script{
