@@ -35,7 +35,10 @@ pipeline{
             timeout(time: 3, unit: 'MINUTES') {
                 script {
                     println(env.getCode)
-                    checkout scm
+                    retry(count:10,sleep:20){
+                        checkout scm
+                    }
+
                 }
 
             }
