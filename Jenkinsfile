@@ -61,12 +61,12 @@ pipeline{
 	    // 运行脚本
 	    stage("run test scripts"){
 	        steps{
-	            timeout(time:5, unit:"MINUTES")
-	            script{
-	                println(env.runTestScripts)
-	                bat "E:\\SoftWareInstalled\\python\\python.exe run_test.py"
-	            }
-
+	            timeout(time:5, unit:"MINUTES"){
+		            script{
+		                println(env.runTestScripts)
+		                bat "E:\\SoftWareInstalled\\python\\python.exe run_test.py"
+		            }
+				}
 	        }
 	    }
 
