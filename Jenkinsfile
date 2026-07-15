@@ -19,21 +19,21 @@ pipeline{
     }
 
 	stages{
-		//清理数据
-		stage("Clear data"){
-		    steps {
-		        bat '''
-		            del /f /s /q test_report.html
-		            rmdir /s /q .pytest_cache
-		        '''
-		        }
-	    }
+//		//清理数据
+//		stage("Clear data"){
+//		    steps {
+//		        bat '''
+//		            del /f /s /q test_report.html
+//		            rmdir /s /q .pytest_cache
+//		        '''
+//		        }
+//	    }
 
 
 	    // 拉取最新的测试脚本
 	    stage("Get code from github"){
 	        steps{
-	            timeout(time: 3, unit: 'MINUTES') {
+	            timeout(time: 3, unit: "MINUTES") {
 	                script {
 	                    println(env.getCode)
 	                    retry(count:10,sleep:20){
