@@ -1,7 +1,7 @@
 
 
 pipeline{
-    agent {node {label "local-agent-01"}}
+    agent any
 
     environment{
         String getCode = "Start to get automation test scripts from github.."
