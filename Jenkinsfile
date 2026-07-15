@@ -18,58 +18,59 @@ pipeline{
         timeout(time: 1, unit: 'HOURS')
     }
 
-	//清理数据
-	stage{
-	    steps {
-	        bat '''
-	            del /f /s /q test_report.html
-	            rmdir /s /q .pytest_cache
-	        '''
+	stages{
+		//清理数据
+		stage{
+		    steps {
+		        bat '''
+		            del /f /s /q test_report.html
+		            rmdir /s /q .pytest_cache
+		        '''
+		        }
+	    }
+
+
+	    // 拉取最新的测试脚本
+	    stage{
+	        steps{
+	            timeout(time: 3, unit: 'MINUTES') {
+	                script {
+	                    println(env.getCode)
+	                    retry(count:10,sleep:20){
+	                        checkout scm
+	                    }
+
+	                }
+
+	            }
 	        }
-    }
+	    }
 
 
-    // 拉取最新的测试脚本
-    stage{
-        steps{
-            timeout(time: 3, unit: 'MINUTES') {
-                script {
-                    println(env.getCode)
-                    retry(count:10,sleep:20){
-                        checkout scm
-                    }
-
-                }
-
-            }
-        }
-    }
-
-
-	// 安装相关的依赖
-	stage{
-		steps{
-			bat '''
-                E:\\SoftWareInstalled\\python\\python.exe -m pip install --upgrade pip -i https://mirrors.aliyun.com/pypi/simple
-                E:\\SoftWareInstalled\\python\\python.exe -m pip install -r requirements.txt --timeout 120 --retries 5 -i https://mirrors.aliyun.com/pypi/simple
-            '''
+		// 安装相关的依赖
+		stage{
+			steps{
+				bat '''
+	                E:\\SoftWareInstalled\\python\\python.exe -m pip install --upgrade pip -i https://mirrors.aliyun.com/pypi/simple
+	                E:\\SoftWareInstalled\\python\\python.exe -m pip install -r requirements.txt --timeout 120 --retries 5 -i https://mirrors.aliyun.com/pypi/simple
+	            '''
+			}
 		}
+
+
+	    // 运行脚本
+	    stage{
+	        steps{
+	            timeout(time:5, unit:"MINUTES")
+	            script{
+	                println(env.runTestScripts)
+	                bat "E:\\SoftWareInstalled\\python\\python.exe run_test.py"
+	            }
+
+	        }
+	    }
+
 	}
-
-
-    // 运行脚本
-    stage{
-        steps{
-            timeout(time:5, unit:"MINUTES")
-            script{
-                println(env.runTestScripts)
-                bat "E:\\SoftWareInstalled\\python\\python.exe run_test.py"
-            }
-
-        }
-    }
-
-
 	//后置处理
 	post{
 
