@@ -3,7 +3,7 @@
 pipeline{
     agent {node {label "local-agent-01"}}
 
-    environment {
+    environment{
         String getCode = "Start to get automation test scripts from github.."
         String buildimage = "Start to build docker image.."
         String runTestScripts = "Start to run test scripts.."
@@ -19,7 +19,7 @@ pipeline{
     }
 
 	//清理数据
-	stage {
+	stage{
 	    steps {
 	        bat '''
 	            del /f /s /q test_report.html
@@ -94,7 +94,7 @@ pipeline{
 		}
 
 		//构建失败的处理
-		failure {
+		failure{
 			script{
 				println("failure")
                 currentBuild.description += "\n 构建失败"
@@ -102,7 +102,7 @@ pipeline{
 		}
 
 		//构建取消的处理
-		aborted {
+		aborted{
 			script{
 				println("aborted")
 				currentBuild.description += "/n 构建取消"
