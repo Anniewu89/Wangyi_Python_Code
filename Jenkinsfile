@@ -20,23 +20,23 @@ pipeline{
 
 	//清理数据
 	stage('0.清理历史产物') {
-    steps {
-        bat '''
-            del /f /s /q test_report.html
-            rmdir /s /q .pytest_cache
-        '''
+	    steps {
+	        bat '''
+	            del /f /s /q test_report.html
+	            rmdir /s /q .pytest_cache
+	        '''
+	        }
     }
-}
+
 
     // 拉取最新的测试脚本
     stage{
         steps{
             timeout(time: 3, unit: 'MINUTES') {
                 script {
-                    println(${evn.getCode})}
+                    println(${evn.getCode})
                     checkout scm
                 }
-
 
             }
         }
@@ -80,7 +80,7 @@ pipeline{
                 reportFiles: 'test_report.html',
                 reportName: '自动化测试报告'])
             }
-		}
+
 
 		// 构建成功的处理
 		success{
@@ -108,7 +108,7 @@ pipeline{
 
 		}
 
-
+	}
 
 
 }
