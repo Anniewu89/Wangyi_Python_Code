@@ -1,12 +1,12 @@
 
 
 pipeline{
-    agent {node {label "local-anget-01"}}
+    agent {node {label "local-agent-01"}}
 
     env{
         String getCode = "Start to get automation test scripts from github.."
         String buildimage = "Start to build docker image.."
-        String runTestScripts = "Start to run test scriptis.."
+        String runTestScripts = "Start to run test scripts.."
         String getTestResult = "Get test result.."
 
     }
@@ -19,7 +19,7 @@ pipeline{
     }
 
 	//清理数据
-	stage('0.清理历史产物') {
+	stage {
 	    steps {
 	        bat '''
 	            del /f /s /q test_report.html
@@ -34,7 +34,7 @@ pipeline{
         steps{
             timeout(time: 3, unit: 'MINUTES') {
                 script {
-                    println(${evn.getCode})
+                    println(env.getCode)
                     checkout scm
                 }
 
@@ -59,8 +59,8 @@ pipeline{
         steps{
             timeout(time:5, unit:"MINUTES")
             script{
-                println(${env.runTestScripts})
-                sh "E:\\SoftWareInstalled\\python\\python.exe run_test.py"
+                println(env.runTestScripts)
+                bat "E:\\SoftWareInstalled\\python\\python.exe run_test.py"
             }
 
         }
@@ -102,7 +102,7 @@ pipeline{
 		aborted {
 			script{
 				println("aborted")
-				currentBuild.description =+ "/n 构建取消"
+				currentBuild.description += "/n 构建取消"
 			}
 
 
