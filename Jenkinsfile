@@ -3,10 +3,6 @@
 pipeline{
     agent {node {label "local-anget-01"}}
 
-	tools{
-		python "Python3.11"
-	}
-
     env{
         String getCode = "Start to get automation test scripts from github.."
         String buildimage = "Start to build docker image.."
@@ -51,8 +47,8 @@ pipeline{
 	stage{
 		steps{
 			bat '''
-                python -m pip install --upgrade pip -i https://mirrors.aliyun.com/pypi/simple
-                python -m pip install -r requirements.txt --timeout 120 --retries 5 -i https://mirrors.aliyun.com/pypi/simple
+                E:\SoftWareInstalled\python\python.exe -m pip install --upgrade pip -i https://mirrors.aliyun.com/pypi/simple
+                E:\SoftWareInstalled\python\python.exe -m pip install -r requirements.txt --timeout 120 --retries 5 -i https://mirrors.aliyun.com/pypi/simple
             '''
 		}
 	}
@@ -64,7 +60,7 @@ pipeline{
             timeout(time:5, unit:"MINUTES")
             script{
                 println(${env.runTestScripts})
-                sh "python run_test.py"
+                sh "E:\SoftWareInstalled\python\python.exe run_test.py"
             }
 
         }
