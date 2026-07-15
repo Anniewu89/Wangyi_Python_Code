@@ -1,5 +1,5 @@
 # 测试框架核心
-pytest==9.3.0
+pytest==9.1.1
 
 # HTML测试报告插件
 pytest-html==4.2.0
