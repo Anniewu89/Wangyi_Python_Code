@@ -3,6 +3,10 @@
 pipeline{
     agent {node {label "local-anget-01"}}
 
+	tools{
+		python "Python3.11"
+	}
+
     env{
         String getCode = "Start to get automation test scripts from github.."
         String buildimage = "Start to build docker image.."
@@ -18,6 +22,15 @@ pipeline{
         timeout(time: 1, unit: 'HOURS')
     }
 
+	//清理数据
+	stage('0.清理历史产物') {
+    steps {
+        bat '''
+            del /f /s /q test_report.html
+            rmdir /s /q .pytest_cache
+        '''
+    }
+}
 
     // 拉取最新的测试脚本
     stage{
@@ -32,6 +45,17 @@ pipeline{
             }
         }
     }
+
+
+	// 安装相关的依赖
+	stage{
+		steps{
+			bat '''
+                python -m pip install --upgrade pip -i https://mirrors.aliyun.com/pypi/simple
+                python -m pip install -r requirements.txt --timeout 120 --retries 5 -i https://mirrors.aliyun.com/pypi/simple
+            '''
+		}
+	}
 
 
     // 运行脚本
@@ -52,9 +76,14 @@ pipeline{
 
 		// 一定会处理的
 		always{
-			script{
-				println(${env.getTestResult})
-			}
+			publishHTML(target: [
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: '.',
+                reportFiles: 'test_report.html',
+                reportName: '自动化测试报告'])
+            }
 		}
 
 		// 构建成功的处理

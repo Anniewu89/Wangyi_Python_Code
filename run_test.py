@@ -1,4 +1,4 @@
 import pytest
 
 if __name__ == "__main__":
-    pytest.main(["testDemo.py","-v","-s"])
+    pytest.main(["testDemo.py","-v","-s","--html=./test_report.html"])
