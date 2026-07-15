@@ -3,7 +3,7 @@
 pipeline{
     agent {node {label "local-agent-01"}}
 
-    env{
+    environment {
         String getCode = "Start to get automation test scripts from github.."
         String buildimage = "Start to build docker image.."
         String runTestScripts = "Start to run test scripts.."
