@@ -61,7 +61,6 @@ pipeline{
 		}
 
 		stage("4. run test scripts at the same time"){
-			steps{
 				parallel {
                     // 运行脚本
 			        stage("[32m=====4.1.run test scripts[0m"){
@@ -91,7 +90,6 @@ pipeline{
 				        }
 			        }
 				}
-			}
 		}
 
 
