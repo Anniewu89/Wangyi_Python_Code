@@ -38,7 +38,7 @@ pipeline{
 	    }
 
 		//登录阿里云私有仓库
-		stage('2. 登录阿里云私有仓库') {
+		stage('2. Login ACR') {
 	        steps {
 	            withCredentials([usernamePassword(
 	                credentialsId: 'aliyun-acr-login',
