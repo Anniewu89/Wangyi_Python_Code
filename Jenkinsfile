@@ -23,7 +23,7 @@ pipeline{
 	stages{
 
 	    // 拉取最新的测试脚本
-	    stage("1.Get code from github"){
+	    stage("[32m=====1.Get code from github[0m"){
 	        steps{
 	            timeout(time: 3, unit: "MINUTES") {
 	                script {
@@ -39,7 +39,7 @@ pipeline{
 	    }
 
 		//登录阿里云私有仓库
-		stage('2. Login ACR') {
+		stage('[32m=====2. Login ACR[0m') {
 	        steps {
 	            withCredentials([usernamePassword(
 	                credentialsId: 'aliyun-acr-login',
@@ -53,7 +53,7 @@ pipeline{
 	        }
         }
 
-		stage("3.Build Docker images"){
+		stage("[32m=====3.Build Docker images[0m"){
 			steps{
 				bat "docker build -t ${IMAGE_NAME} ."
 
@@ -61,7 +61,7 @@ pipeline{
 		}
 
 		    // 运行脚本
-	    stage("4.run test scripts"){
+	    stage("[32m=====4.run test scripts[0m"){
 	        steps{
 	            timeout(time:5, unit:"MINUTES"){
 		            script{
