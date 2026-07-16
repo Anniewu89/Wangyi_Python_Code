@@ -69,7 +69,7 @@ pipeline{
 					            script{
 					                bat """
 					                    md report_task1 2>nul
-					                    docker run --rm -v ${WORKSPACE}/report:/workspace/report ${IMAGE_NAME} python run_test.py
+					                    docker run --rm -v ${WORKSPACE}/report_task1:/workspace/report ${IMAGE_NAME} python run_test.py
 						               """
 					            }
 							}
@@ -83,7 +83,7 @@ pipeline{
 					            script{
 					                bat """
 					                    md report_task2 2>nul
-					                    docker run --rm -v ${WORKSPACE}/report:/workspace/report ${IMAGE_NAME} python run_test_01.py
+					                    docker run --rm -v ${WORKSPACE}/report_task2:/workspace/report ${IMAGE_NAME} python run_test_01.py
 						               """
 					            }
 							}
