@@ -45,7 +45,7 @@ pipeline{
 	                usernameVariable: 'DOCKER_USER',
 	                passwordVariable: 'DOCKER_PWD'
 	            )]) {
-	                sh """
+	                bat """
 	                    docker login ${ACR_HOST} -u ${DOCKER_USER} -p ${DOCKER_PWD}
 	                """
 	            }
@@ -54,7 +54,7 @@ pipeline{
 
 		stage("3.Build Docker images"){
 			steps{
-				sh "docker build -t ${IMAGE_NAME}"
+				bat "docker build -t ${IMAGE_NAME}"
 
 			}
 		}
@@ -64,7 +64,7 @@ pipeline{
 	        steps{
 	            timeout(time:5, unit:"MINUTES"){
 		            script{
-		                sh """
+		                bat """
 		                    mkdir -p report
 		                    docker run --rm -v ${WORKSPACE}/report:/workspace/report ${IMAGE_NAME}
 			               """
@@ -81,7 +81,7 @@ pipeline{
 
 		// 一定会处理的
 		always{
-			sh "docker system prune -f"
+			bat "docker system prune -f"
 			publishHTML(target: [
                 allowMissing: false,
                 alwaysLinkToLastBuild: true,
