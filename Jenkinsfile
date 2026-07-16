@@ -68,7 +68,7 @@ pipeline{
 				            timeout(time:5, unit:"MINUTES"){
 					            script{
 					                bat """
-					                    mkdir -p report
+					                    md report_task1 2>nul
 					                    docker run --rm -v ${WORKSPACE}/report:/workspace/report ${IMAGE_NAME} python run_test.py
 						               """
 					            }
@@ -82,7 +82,7 @@ pipeline{
 				            timeout(time:5, unit:"MINUTES"){
 					            script{
 					                bat """
-					                    mkdir -p report
+					                    md report_task2 2>nul
 					                    docker run --rm -v ${WORKSPACE}/report:/workspace/report ${IMAGE_NAME} python run_test_01.py
 						               """
 					            }
