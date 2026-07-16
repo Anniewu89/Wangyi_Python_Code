@@ -17,6 +17,7 @@ pipeline{
         skipDefaultCheckout() //跳过一开始就会去拉仓库的最新代码
         disableConcurrentBuilds() //禁用并行
         timeout(time: 1, unit: 'HOURS')
+        ansiColor('xterm')
     }
 
 	stages{
