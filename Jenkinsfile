@@ -70,8 +70,11 @@ pipeline{
 					                bat """
 					                    md report_task1 2>nul
 					                    docker run --rm -v ${WORKSPACE}/report_task1:/workspace/report ${IMAGE_NAME} python run_test.py
-						               """
+					                    timeout /t 2 /nobreak >nul
+						                """
 					            }
+
+
 							}
 				        }
 			        }
@@ -84,7 +87,8 @@ pipeline{
 					                bat """
 					                    md report_task2 2>nul
 					                    docker run --rm -v ${WORKSPACE}/report_task2:/workspace/report ${IMAGE_NAME} python run_test_01.py
-						               """
+						                timeout /t 2 /nobreak >nul
+						                """
 					            }
 							}
 				        }
@@ -105,7 +109,7 @@ pipeline{
 	        bat "docker system prune -f"
 		        // 任务1报告
 		        publishHTML(target: [
-		            allowMissing: false,
+		            allowMissing: true,
 		            alwaysLinkToLastBuild: true,
 		            keepAll: true,
 		            reportDir: 'report_task1',
@@ -113,7 +117,7 @@ pipeline{
 		            reportName: '测试任务1报告'  ])
 		        // 任务2报告
 		        publishHTML(target: [
-		            allowMissing: false,
+		            allowMissing: true,
 		            alwaysLinkToLastBuild: true,
 		            keepAll: true,
 		            reportDir: 'report_task2',
