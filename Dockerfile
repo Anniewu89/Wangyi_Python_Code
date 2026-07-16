@@ -3,4 +3,4 @@ FROM crpi-sttdf1vp2rt3wy5e.cn-shanghai.personal.cr.aliyuncs.com/automation-test-
 
 WORKDIR /workspace
 COPY . .
-CMD ["python", "run_test.py"]
+CMD ["python"]
