@@ -1,5 +1,3 @@
-
-
 pipeline{
     agent any
 
@@ -8,8 +6,7 @@ pipeline{
         String buildimage = "Start to build docker image.."
         String runTestScripts = "Start to run test scripts.."
         String getTestResult = "Get test result.."
-		ACR_MOMAIN = "crpi-sttdf1vp2rt3wy5e.cn-shanghai.personal.cr.aliyuncs.com"
-        IMAGE_NAME="${ACR_DOMAIN}/automation-test-basic/test-task:${BUILD_NUMBER}"
+
     }
 
     options{
@@ -20,9 +17,19 @@ pipeline{
     }
 
 	stages{
+//		//清理数据
+//		stage("Clear data"){
+//		    steps {
+//		        bat '''
+//		            del /f /s /q test_report.html
+//		            rmdir /s /q .pytest_cache
+//		        '''
+//		        }
+//	    }
+
 
 	    // 拉取最新的测试脚本
-	    stage("1.Get code from github"){
+	    stage("Get code from github"){
 	        steps{
 	            timeout(time: 3, unit: "MINUTES") {
 	                script {
@@ -37,51 +44,36 @@ pipeline{
 	        }
 	    }
 
-		//登录阿里云私有仓库
-		stage('2. 登录阿里云私有仓库') {
-	        steps {
-	            withCredentials([usernamePassword(
-	                credentialsId: 'aliyun-acr-login',
-	                usernameVariable: 'DOCKER_USER',
-	                passwordVariable: 'DOCKER_PWD'
-	            )]) {
-	                sh """
-	                    docker login ${ACR_HOST} -u ${DOCKER_USER} -p ${DOCKER_PWD}
-	                """
-	            }
-	        }
-        }
 
-		stage("3.Build Docker images"){
+		// 安装相关的依赖
+		stage("install packages"){
 			steps{
-				sh "docker build -t ${IMAGE_NAME}"
-
+				bat '''
+	                E:\\SoftWareInstalled\\python\\python.exe -m pip install --upgrade pip -i https://mirrors.aliyun.com/pypi/simple
+	                E:\\SoftWareInstalled\\python\\python.exe -m pip install -r requirements.txt --timeout 120 --retries 5 -i https://mirrors.aliyun.com/pypi/simple
+	            '''
 			}
 		}
 
-		    // 运行脚本
-	    stage("4.run test scripts"){
+
+	    // 运行脚本
+	    stage("run test scripts"){
 	        steps{
 	            timeout(time:5, unit:"MINUTES"){
 		            script{
-		                sh """
-		                    mkdir -p report
-		                    docker run --rm -v ${WORKSPACE}/report:/workspace/report ${IMAGE_NAME}
-			               """
+		                println(env.runTestScripts)
+		                bat "E:\\SoftWareInstalled\\python\\python.exe run_test.py"
 		            }
 				}
 	        }
 	    }
 
 	}
-
-
 	//后置处理
 	post{
 
 		// 一定会处理的
 		always{
-			sh "docker system prune -f"
 			publishHTML(target: [
                 allowMissing: false,
                 alwaysLinkToLastBuild: true,

@@ -1,0 +1,25 @@
+FROM swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/python:3.11-slim
+WORKDIR /workspace
+
+RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+
+# 全部依赖锁定版本，兼容Python3.11 + pytest9.1.1
+RUN pip install --no-cache-dir \
+    pytest==9.1.1 \
+    pytest-html==4.1.1 \
+    pytest-cov==4.1.0 \
+    requests==2.31.0 \
+    selenium==4.15.0 \
+    webdriver-manager==4.0.1 \
+    allure-pytest==2.13.3
+
+# 仅保留curl，删除git，减小镜像体积
+RUN apt-get update && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# 编码配置，HTML测试报告中文不乱码
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
+
+# 容器默认启动程序，Jenkins运行时会自动覆盖这条命令
+CMD ["python"]
