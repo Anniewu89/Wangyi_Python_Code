@@ -8,8 +8,8 @@ pipeline{
         String buildimage = "Start to build docker image.."
         String runTestScripts = "Start to run test scripts.."
         String getTestResult = "Get test result.."
-		ACR_MOMAIN = "crpi-sttdf1vp2rt3wy5e.cn-shanghai.personal.cr.aliyuncs.com"
-        IMAGE_NAME="${ACR_DOMAIN}/automation-test-basic/test-task:${BUILD_NUMBER}"
+		ACR_HOST = "crpi-sttdf1vp2rt3wy5e.cn-shanghai.personal.cr.aliyuncs.com"
+        IMAGE_NAME="${ACR_HOST}/automation-test-basic/test-task:${BUILD_NUMBER}"
     }
 
     options{
