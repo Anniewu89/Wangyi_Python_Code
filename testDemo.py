@@ -27,4 +27,4 @@ def test_div_zero_normal(init_setup):
 
 def test_abnormal(init_setup):
     result = ct.division_function(20,0)
-    assert result == 0
+    assert result == "0"
