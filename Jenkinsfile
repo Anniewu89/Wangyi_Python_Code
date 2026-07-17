@@ -107,7 +107,6 @@ pipeline{
 		// 一定会处理的
 		always {
 	        bat """
-                docker system prune -f
                 timeout /t 3 /nobreak >nul
                 """
 		        // 任务1报告
