@@ -116,6 +116,7 @@ pipeline{
 		    // 任务2报告
 		    allure(results: [[path: 'report_task2/allure_raw']], reportDir: 'allure_task2', reportName: 'testreportfortask2')
 
+		}
 
 		// 构建成功的处理
 		success{
