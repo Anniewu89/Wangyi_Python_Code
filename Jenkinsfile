@@ -112,10 +112,10 @@ pipeline{
 
 			"""
 		        // 任务1报告
-            allure results: [[path: 'report_task1/allure_raw']]
+            allure(results: [[path: 'report_task1/allure_raw']])
 
 		    // 任务2报告
-		    allure results: [[path: 'report_task2/allure_raw']]
+		    allure(results: [[path: 'report_task2/allure_raw']])
 
 		}
 
