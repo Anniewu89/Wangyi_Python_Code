@@ -70,7 +70,7 @@ pipeline{
 					                bat """
 					                    md report_task1 2>nul
 					                    docker run --rm -v ${WORKSPACE}/report_task1:/workspace/report ${IMAGE_NAME} python run_test.py
-					                    timeout /t 2 /nobreak >nul
+					                    timeout /t 3 /nobreak >nul
 						                """
 					            }
 
@@ -106,16 +106,24 @@ pipeline{
 
 		// 一定会处理的
 		always {
-	        bat """
-                docker system prune -f
-                timeout /t 3 /nobreak >nul
-                """
+	        bat "docker system prune -f"
 		        // 任务1报告
-            allure(results: [[path: 'report_task1/allure_raw']], reportDir: 'allure_task1', reportName: 'testreportfortask1')
-
-		    // 任务2报告
-		    allure(results: [[path: 'report_task2/allure_raw']], reportDir: 'allure_task2', reportName: 'testreportfortask2')
-
+		        publishHTML(target: [
+		            allowMissing: true,
+		            alwaysLinkToLastBuild: true,
+		            keepAll: true,
+		            reportDir: 'report_task1',
+		            reportFiles: 'test_report.html',
+		            reportName: '测试任务1报告'  ])
+		        // 任务2报告
+		        publishHTML(target: [
+		            allowMissing: true,
+		            alwaysLinkToLastBuild: true,
+		            keepAll: true,
+		            reportDir: 'report_task2',
+		            reportFiles: 'test_report.html',
+		            reportName: '测试任务2报告'  ])
+         }
 
 		// 构建成功的处理
 		success{
