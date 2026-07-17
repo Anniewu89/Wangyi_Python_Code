@@ -112,10 +112,10 @@ pipeline{
 				timeout /t 3 /nobreak >nul
 			"""
 		        // 任务1报告
-            allure(results: [[path: 'report_task1/allure_raw']], reportDir: 'allure_task1', reportName: 'testreportfortask1')
+            allure results: [[path: 'report_task1/allure_raw']]
 
 		    // 任务2报告
-		    allure(results: [[path: 'report_task2/allure_raw']], reportDir: 'allure_task2', reportName: 'testreportfortask2')
+		    allure results: [[path: 'report_task2/allure_raw']]
 
 		}
 
