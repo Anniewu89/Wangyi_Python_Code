@@ -109,7 +109,7 @@ pipeline{
 	        bat """
 				chcp 65001 >nul
 				docker system prune -f || echo Docker清理失败，忽略错误
-				timeout /t 3 /nobreak
+
 			"""
 		        // 任务1报告
             allure results: [[path: 'report_task1/allure_raw']]
