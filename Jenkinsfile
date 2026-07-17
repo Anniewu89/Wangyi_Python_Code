@@ -123,7 +123,7 @@ pipeline{
 		success{
 			script{
 				println("Success")
-				currentBuild.description += "\n 构建成功"
+				currentBuild.description = "构建成功"
 			}
 		}
 
@@ -131,7 +131,7 @@ pipeline{
 		failure{
 			script{
 				println("failure")
-                currentBuild.description += "\n 构建失败"
+                currentBuild.description = "构建失败"
 			}
 		}
 
@@ -139,7 +139,7 @@ pipeline{
 		aborted{
 			script{
 				println("aborted")
-				currentBuild.description += "\n 构建取消"
+				currentBuild.description = "构建取消"
 			}
 
 
