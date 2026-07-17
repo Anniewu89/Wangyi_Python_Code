@@ -107,8 +107,10 @@ pipeline{
 		// 一定会处理的
 		always {
 	        bat """
-                timeout /t 3 /nobreak >nul
-                """
+				chcp 65001 >nul
+				docker system prune -f || echo Docker清理失败，忽略错误
+				timeout /t 3 /nobreak >nul
+			"""
 		        // 任务1报告
             allure(results: [[path: 'report_task1/allure_raw']], reportDir: 'allure_task1', reportName: 'testreportfortask1')
 
